@@ -1,0 +1,94 @@
+1                                                          The SAS System                            14:17 Friday, February 20, 2015
+
+NOTE: Copyright (c) 2002-2008 by SAS Institute Inc., Cary, NC, USA. 
+NOTE: SAS (r) Proprietary Software 9.2 (TS2M3) 
+      Licensed to DEPAUL UNIVERSITY-T&R, Site 70072056.
+NOTE: This session is executing on the Linux 2.6.18-371.9.1.el5 (LIN X64) platform.
+
+
+
+You are running SAS 9. Some SAS 8 files will be automatically converted 
+by the V9 engine; others are incompatible.  Please see 
+http://support.sas.com/rnd/migration/planning/platform/64bit.html
+
+PROC MIGRATE will preserve current SAS file attributes and is 
+recommended for converting all your SAS libraries from any 
+SAS 8 release to SAS 9.  For details and examples, please see
+http://support.sas.com/rnd/migration/index.html
+
+
+This message is contained in the SAS news file, and is presented upon
+initialization.  Edit the file "news" in the "misc/base" directory to
+display site-specific news and information in the program log.
+The command line option "-nonews" will prevent this display.
+
+
+
+
+NOTE: SAS initialization used:
+      real time           0.04 seconds
+      cpu time            0.02 seconds
+      
+1          libname f "/opt/data/datamain/TITLE2012/sas_dataset";
+NOTE: Libref F was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: /opt/data/datamain/TITLE2012/sas_dataset
+1        !                                                      
+2          libname h "/home/yzhang96/TITLE"
+3          
+4          proc contents data = f.dpl_il_cook_20120507 position;
+           ____
+           22
+ERROR 22-7: Invalid option name PROC.
+
+4        ! proc contents data = f.dpl_il_cook_20120507 position;
+                         ____
+                         22
+ERROR: Libname H is not assigned.
+ERROR: Error in the LIBNAME statement.
+ERROR 22-7: Invalid option name DATA.
+
+5          run;
+6          
+7          data h.x;
+8          set f.dpl_il_cook_20120507;
+9          retain maxlength 0;
+10         a1_apn_pin1 = trim(A1_APN_PIN);
+11         len = length(A1_APN_PIN);
+12         if maxlength<len then maxlength=len;
+13         run;
+
+2                                                          The SAS System                            14:17 Friday, February 20, 2015
+
+ERROR: Libname H is not assigned.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: SAS set option OBS=0 and will continue to check statements. This may cause NOTE: No observations in data set.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+13       !     
+14         
+15         data h.y;
+16         set h.x;
+ERROR: Libname H is not assigned.
+17         by a1_apn_pin;
+18         if last.maxlength then output;
+19         run;
+
+ERROR: Libname H is not assigned.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+ERROR: Errors printed on pages 1,2.
+
+NOTE: SAS Institute Inc., SAS Campus Drive, Cary, NC USA 27513-2414
+NOTE: The SAS System used:
+      real time           0.08 seconds
+      cpu time            0.03 seconds
+      
