@@ -1,4 +1,4 @@
-1                                                          The SAS System                            16:36 Friday, February 20, 2015
+1                                                          The SAS System                           13:04 Tuesday, February 24, 2015
 
 NOTE: Copyright (c) 2002-2008 by SAS Institute Inc., Cary, NC, USA. 
 NOTE: SAS (r) Proprietary Software 9.2 (TS2M3) 
@@ -26,8 +26,8 @@ The command line option "-nonews" will prevent this display.
 
 
 NOTE: SAS initialization used:
-      real time           0.04 seconds
-      cpu time            0.02 seconds
+      real time           1.52 seconds
+      cpu time            0.07 seconds
       
 1          option compress = yes;
 2          
@@ -42,135 +42,94 @@ NOTE: Libref H was successfully assigned as follows:
       Physical Name: /home/yzhang96/TITLE
 4        !                                  
 5          
-6          %macro test;
+6          %macro test_all();
 7          filename filelist pipe "ls /opt/data/datamain/TITLE2012/sas_dataset";
 8          data h.f_list;
-9             infile filelist;
-10            length process $ 80;
-11            input process $ char80.;
-12            call symput('f_num', _N_);
-13         run;
-14         proc print data=h.f_list;
-15         run;
-16         
-17         %put ~~~~~~~~~~;
-18         
-19         proc contents data = f.dpl_il_cook_20120507 out = h.a position noprint;
-20         run;
+9          	infile filelist;
+10         	length file $ 80;
+11         	input file $ char80.;
+12         	name = scan(file,1,'.sas7bdat');
+13         	call symput('f_all', _N_);
+14         	call symput(cat('var', _N_), _N_);
+15         	call symput(cats('f_name',_N_), name);
+16         run;
+17         proc print data = h.f_list;
+18         run;
+19         
+20         %put ~~~~~~~~~~;
 21         
-2                                                          The SAS System                            16:36 Friday, February 20, 2015
+2                                                          The SAS System                           13:04 Tuesday, February 24, 2015
 
-22         data h.b;
-23         set h.a;
-24         keep MEMNAME NAME TYPE LENGTH VARNUM FORMAT;
-25         run;
-26         proc sort data = h.b;
-27         by VARNUM; 
-28         run;
-29         
-30         data h.x;
-31         set f.dpl_il_cook_20120507;
-32         retain maxlength 0;
-33         a1_apn_pin1 = trim(A1_APN_PIN);
-34         len = length(A1_APN_PIN);
-35         if maxlength<len then maxlength=len;
+22         %do i=1 %to &f_all.;
+23         	%put ~~~~~file No. &&var&i. ~~~~file name: &&f_name&i.;
+24         	%test(&&f_name&i.);
+25         %end;
+26         
+27         %mend test_all;
+28         
+29         %macro test(&f_name);
+ERROR: Invalid macro parameter name &.  It should be a valid SAS identifier no longer than 32 characters.
+ERROR: A dummy macro will be compiled.
+30         proc contents data = f.&f_name. out = h.a_&f_name. position noprint;
+31         run;
+32         /*
+33         data h.b;
+34         set h.a;
+35         keep MEMNAME NAME TYPE LENGTH VARNUM FORMAT;
 36         run;
-37         
-38         data h.y;
-39         set h.x;
-40         by a1_apn_pin;
-41         if last.maxlength then output;
-42         run;
-43         
-44         %mend test;
-45         
-46         %test();
+37         proc sort data = h.b;
+38         by VARNUM; 
+39         run;
+40         
+41         data h.x;
+42         set f.dpl_il_cook_20120507;
+43         retain maxlength 0;
+44         a1_apn_pin1 = trim(A1_APN_PIN);
+45         len = length(A1_APN_PIN);
+46         if maxlength<len then maxlength=len;
+47         run;
+48         
+49         data h.y;
+50         set h.x;
+51         by a1_apn_pin;
+52         if maxlength then output;
+53         run;
+54         */
+55         %mend test;
+56         
+57         %test_all();
 
 NOTE: Numeric values have been converted to character values at the places given by: (Line):(Column).
-      46:191   
-NOTE: The infile FILELIST is:
-      Pipe command="ls /opt/data/datamain/TITLE2012/sas_dataset"
-
-NOTE: 147 records were read from the infile FILELIST.
-      The minimum record length was 8.
-      The maximum record length was 29.
-NOTE: SAS went to a new line when INPUT statement reached past the end of a line.
-NOTE: The data set H.F_LIST has 73 observations and 1 variables.
-NOTE: Compressing data set H.F_LIST increased size by 100.00 percent. 
-      Compressed is 2 pages; un-compressed would require 1 pages.
+      57:212   57:249   
+NOTE: SAS set option OBS=0 and will continue to check statements. This may cause NOTE: No observations in data set.
+NOTE: The data set H.F_LIST has 0 observations and 2 variables.
+WARNING: Data set H.F_LIST was not replaced because this step was stopped.
 NOTE: DATA statement used (Total process time):
-      real time           0.01 seconds
+      real time           0.33 seconds
       cpu time            0.00 seconds
       
 
 
-NOTE: There were 73 observations read from the data set H.F_LIST.
-NOTE: The PROCEDURE PRINT printed pages 1-2.
 NOTE: PROCEDURE PRINT used (Total process time):
-      real time           0.02 seconds
-      cpu time            0.03 seconds
+      real time           0.46 seconds
+      cpu time            0.04 seconds
       
 
 ~~~~~~~~~~
+WARNING: Apparent symbolic reference F_ALL not resolved.
+ERROR: A character operand was found in the %EVAL function or %IF condition where a numeric operand is required. The condition was: 
+3                                                          The SAS System                           13:04 Tuesday, February 24, 2015
 
-NOTE: The data set H.A has 1962 observations and 40 variables.
-NOTE: Compressing data set H.A decreased size by 76.74 percent. 
-      Compressed is 10 pages; un-compressed would require 43 pages.
-NOTE: PROCEDURE CONTENTS used (Total process time):
-      real time           0.02 seconds
-3                                                          The SAS System                            16:36 Friday, February 20, 2015
+       &f_all. 
+ERROR: The %TO value of the %DO I loop is invalid.
+ERROR: The macro TEST_ALL will stop executing.
+58         *%test();
+59         
 
-      cpu time            0.03 seconds
-      
-
-
-NOTE: There were 1962 observations read from the data set H.A.
-NOTE: The data set H.B has 1962 observations and 6 variables.
-NOTE: Compressing data set H.B decreased size by 30.00 percent. 
-      Compressed is 21 pages; un-compressed would require 30 pages.
-NOTE: DATA statement used (Total process time):
-      real time           0.01 seconds
-      cpu time            0.01 seconds
-      
-
-
-NOTE: There were 1962 observations read from the data set H.B.
-NOTE: The data set H.B has 1962 observations and 6 variables.
-NOTE: Compressing data set H.B decreased size by 30.00 percent. 
-      Compressed is 21 pages; un-compressed would require 30 pages.
-NOTE: PROCEDURE SORT used (Total process time):
-      real time           0.00 seconds
-      cpu time            0.01 seconds
-      
-
-
-NOTE: There were 59054 observations read from the data set F.DPL_IL_COOK_20120507.
-NOTE: The data set H.X has 59054 observations and 1965 variables.
-NOTE: Compressing data set H.X decreased size by 99.49 percent. 
-      Compressed is 301 pages; un-compressed would require 59056 pages.
-NOTE: DATA statement used (Total process time):
-      real time           8.28 seconds
-      cpu time            8.29 seconds
-      
-
-
-NOTE: Variable last.maxlength is uninitialized.
-NOTE: There were 59054 observations read from the data set H.X.
-NOTE: The data set H.Y has 0 observations and 1965 variables.
-NOTE: DATA statement used (Total process time):
-      real time           1.29 seconds
-      cpu time            1.29 seconds
-      
-
-180: LINE and COLUMN cannot be determined.
-NOTE: NOSPOOL is on. Rerunning with OPTION SPOOL may allow recovery of the LINE and COLUMN where the error has occurred.
-ERROR 180-322: Statement is not valid or it is used out of proper order.
-47         
-
-ERROR: Errors printed on page 3.
+ERROR: Errors printed on pages 2,3.
 
 NOTE: SAS Institute Inc., SAS Campus Drive, Cary, NC USA 27513-2414
 NOTE: The SAS System used:
-      real time           9.71 seconds
-      cpu time            9.68 seconds
+      real time           3.65 seconds
+      cpu time            0.12 seconds
       
