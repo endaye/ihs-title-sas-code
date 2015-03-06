@@ -44,6 +44,11 @@ libname h "/home/yzhang96/TITLE";
 		call symput(cat("vname", _N_), name);
 		call symput(cat("vlen", _N_), length);
 	run;
+
+	data h.&f_name.2;
+		set h.&f_name.;
+		%do i = 1 %to &var_all.;
+			
 	/*
 	data h.x;
 		set f.dpl_il_cook_20120507;

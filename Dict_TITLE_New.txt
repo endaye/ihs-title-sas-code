@@ -1,0 +1,181 @@
+Level	Field	Length	Variable	var_idx
+	Level	1	Level	0
+H	Document Identifier	18	H_Doc_Identifier	1
+H	Post To Indicator	1	H_Post_Indicator	2
+H	Recording Company	3	H_Rec_Company	3
+H	Document Date	8	H_Doc_Date	4
+H	Recording Document Date	8	H_Rec_Doc_Date	5
+H	Recording Document Number	20	H_Rec_Doc_Num	6
+H	Recording Book	20	H_Rec_Book	7
+H	Recording Page From	10	H_Rec_Page_From	8
+H	Recording Page Thru	10	H_Rec_Page_Thru	9
+H	Doctype	3	H_Doc_Type	10
+H	SubType	3	H_Sub_Type	11
+H	Transfer Tax Full/Partial code	1	H_Trans_Tax_Code	12
+H	City Transfer Tax	13	H_City_Trans_Tax	13
+H	County Transfer Tax	13	H_County_Trans_Tax	14
+H	Total Transfer Tax	13	H_Total_Trans_Tax	15
+H	Loan Amount	13	H_Loan_Amt	16
+H	State Transfer Tax	13	H_State_Trans_Tax	17
+H	MERS Flag	1	H_MERS_Flag	18
+H	MERS Min number	255	H_MERS_MIN	19
+H	MERS Phone number	30	H_MERS_Phone	20
+H	Homestead Waiver Flag	1	H_Homestead_Waiver	21
+H	Court Type Code	4	H_Court_Type_Code	22
+H	District External Code	6	H_Dist_External_Code	23
+H	Case Type Code	10	H_Case_Type_Code	24
+H	Docket	12	H_Docket	25
+H	Folio	12	H_Folio	26
+H	Case Number	20	H_Case_Num	27
+H	Consolidated Case Number Flag	1	H_Consolidated_Case	28
+H	Judge/Referee	10	H_Judge_Referee	29
+H	Chapter	10	H_Chapter	30
+H	File Date	8	H_File_Date	31
+H	Judgment/Lien Amount/Total Amount	13	H_Judge_Lien_Amt	32
+H	Court Amout	13	H_Court_Amt	33
+H	Attorney Amount	13	H_Attorney_Amt	34
+H	"Type of Financing (Fixed, Var., etc.)"	10	H_Type_of_Financing	35
+H	Interest Rate	6	H_Interest_Rate	36
+H	Term Begin Date	8	H_Term_Begin_Date	37
+H	Term End Date	8	H_Term_End_Date	38
+H	Term Duration	9	H_Term_Duration	39
+H	Term Unit	10	H_Term_Unit	40
+H	Rate Change Frequency	10	H_Rate_Change_Freq	41
+H	Change Index	10	H_Change_Index	42
+H	Adjustable Rate Index	15	H_Adj_Rate_Idx	43
+H	Tax Type	10	H_Tax_Type	44
+H	"Loan Type (FHA, VA,etc.)"	10	H_Loan_Type	45
+H	BookSetCode	10	H_Book_Set_Code	46
+H	ArbSet	10	H_Arb_Set	47
+H	ArbReel	10	H_Arb_Reel	48
+H	ArbBlip	10	H_Arb_Blip	49
+H	Certificate Number	20	H_Certificate_Num	50
+H	Policy Number	20	H_Policy_Num	51
+H	Policy Class Code	10	H_Policy_Class_Code	52
+H	Note Folder	50	H_Note_Folder	53
+H	Note Number	20	H_Note_Num	54
+H	Order Number	20	H_Order_Num	55
+H	Department	50	H_Department	56
+H	Title Unit	50	H_Title_Unit	57
+H	Married Date	8	H_Married_Date	58
+H	Judgment Entered Date 	8	H_Judge_Enter_Date	59
+H	PolicyAmount	13	H_Policy_Amt	60
+H	SaleAmount	13	H_Sale_Amt	61
+H	MiscAmount	13	H_Misc_Amt	62
+H	Partial Interest Transferred	30	H_Partial_Int_Trans	63
+H	ConveyanceType	10	H_Conveyance_Type	64
+R	Document Identifier	18	R_Doc_Identifier	1
+R	IndexDate	8	R_Index_Date	2
+R	DocumentNumber	20	R_Doc_Num	3
+R	BookNumber	20	R_Book_Num	4
+R	PageNumber	10	R_Page_Num	5
+R	CaseNumber	20	R_Case_Num	6
+R	ReferenceInfo	100	R_Ref_Info	7
+R	ReferenceType	50	R_Ref_Type	8
+I	Document Identifier	18	I_Doc_Identifier	1
+I	PartyNumber	1	I_Party_Num	2
+I	"Name Type status code (B,I,U,etc.)"	1	I_Name_Type	3
+I	RelationshipCode	2	I_Relationship_Code	4
+I	EstateCode	2	I_Estate_Code	5
+I	Name	255	I_Name	6
+I	Partial Interest Transferred	30	I_Partial_Int_Trans	7
+I	Party SSN	15	I_Party_SSN	8
+I	Party Phone Number	30	I_Party_Phone	9
+I	Party Driver's License Number	15	I_Party_Driver_Lic	10
+I	Lender Type Code	50	I_Lender_Type_Code	11
+I	Foreign Corporation State	2	I_Foreign_Corp_State	12
+I	Name Title	20	I_Name_Title	13
+I	Name Suffix	10	I_Name_Suffix	14
+I	Party Comment	500	I_Party_Comment	15
+I	RoleName	10	I_Role_Name	16
+M	Document Identifier	18	M_Doc_Identifier	1
+M	StreetNumber	11	M_Street_Num	2
+M	House Alpha	6	M_House_Alpha	3
+M	Pre Direction	2	M_Pre_Direction	4
+M	Street Name	255	M_Street_Name	5
+M	Street Type	2	M_Street_Type	6
+M	Post Direction	2	M_Post_Direction	7
+M	Unit Designator	4	M_Unit_Designator	8
+M	Unit Number	11	M_Unit_Num	9
+M	City	40	M_City	10
+M	State	2	M_State	11
+M	Zip	9	M_Zip	12
+M	Carrier Route	4	M_Carrier_Route	13
+M	Latitude	10	M_Latitude	14
+M	Longitude	11	M_Longitude	15
+M	Census Tract & block	16	M_Census_Tract_Block	16
+M	International Address Line	100	M_Intl_Addr_Line	17
+P	Document Identifier	18	P_Doc_Identifier	1
+P	Street Number	11	P_Street_Num	2
+P	House Number Alpha	6	P_House_Alpha	3
+P	Pre Direction	2	P_Pre_Direction	4
+P	Street Name	255	P_Street_Name	5
+P	Street Type	2	P_Street_Type	6
+P	Post Direction	2	P_Post_Direction	7
+P	Unit Designator	4	P_Unit_Designator	8
+P	Unit Number	11	P_Unit_Num	9
+P	City	40	P_City	10
+P	State	2	P_State	11
+P	Zip	9	P_Zip	12
+P	Carrier Route	4	P_Carrier_Route	13
+P	Latitude	10	P_Latitude	14
+P	Longitude	11	P_Longitude	15
+P	Census Tract & block	16	P_Census_Tract_Block	16
+P	International Address Line	100	P_Intl_Addr_Line	17
+A	Document Identifier	18	A_Doc_Identifier	1
+A	APN/PIN	41	A_APN_PIN	2
+L	Document Identifier	18	L_Doc_Identifier	1
+L	Map Type	3	L_Map_Type	2
+L	Major Legal Name	25	L_Major_Legal_Name	3
+L	Major Legal Value	60	L_Major_Legal_Value	4
+L	Major Legal Optional	25	L_Major_Legal_Opt	5
+L	Map Book	10	L_Map_Book	6
+L	Map Page	10	L_Map_Page	7
+L	Map Page Thru	10	L_Map_Page_Thru	8
+L	Map Date	8	L_Map_Date	9
+L	Map Name	255	L_Map_Name	10
+L	Map Number	20	L_Map_Num	11
+L	Tract#	10	L_Tract_Num	12
+L	Phase	255	L_Phase	13
+L	Case#	10	L_Case_Num	14
+L	Section	5	L_Section	15
+L	Township	10	L_Township	16
+L	Range	10	L_Range	17
+L	Government Tract	10	L_Government_Tract	18
+L	Area	5	L_Area	19
+L	Rack	10	L_Rack	20
+L	Arb Tract	25	L_Arb_Tract	21
+L	Condo Book Number	10	L_Condo_Book_Num	22
+L	Condo Page Number	10	L_Condo_Page_Num	23
+L	Condo Plan Thru Page	10	L_Condo_Page_Thru	24
+L	Condo Plan Date	8	L_Condo_Plan_Date	25
+L	Condo Plan Number	10	L_Condo_Plan_Num	26
+L	Plat Document Number	20	L_Plat_Doc_Num	27
+L	Plant Name	25	L_Plant_Name	28
+L	Guarantee Number	10	L_Guarantee_Num	29
+L	Lot Tract Number	10	L_Lot_Tract_Num	30
+L	APN Section	10	L_APN_Section	31
+L	Quarters	10	L_Quarters	32
+L	Block	25	L_Block	33
+L	CommonLot	10	L_Common_Lot	34
+L	Lot	25	L_Lot	35
+L	Building	10	L_Building	36
+L	Unit	25	L_Unit	37
+L	Share	25	L_Share	38
+L	Other Descriptor	10	L_Other_Descriptor	39
+L	Parking Space/Garage (if separately conveyed)	50	L_Parking_Garage_Sep	40
+L	Parcel	10	L_Parcel	41
+L	Sub Parcel	10	L_Sub_Parcel	42
+L	Arb	25	L_Arb	43
+L	Parking Space/Garage (if appurtenant)	50	L_Parking_Garage_App	44
+L	Portion	50	L_Portion	45
+L	Fee Easment Code	50	L_Fee_Easment_Code	46
+L	Other Common Lots	50	L_Other_Common_Lots	47
+L	Other Share Numbers	50	L_Other_Share_Num	48
+L	Comment	255	L_Comment	49
+N	Document Identifier	18	N_Doc_Identifier	1
+N	Legal Description Text	3500	N_Legal_Desc_Text	2
+T	Document Identifier	18	T_Doc_Identifier	1
+T	Remark Code	1	T_Remark_Code	2
+T	Remark Date	8	T_Remark_Date	3
+T	Remark Text	5000	T_Remark_Text	4
