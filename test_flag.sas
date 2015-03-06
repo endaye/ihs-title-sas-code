@@ -2,12 +2,45 @@ option compress =yes;
 %LET txtds = ./;
 libname f './';
 
+*** read dictionary ***;
+data f.dict;
+infile "./Dict_TITLE_New.txt" dsd truncover firstobs=2 dlm='09'x lrecl=99999999;
+input Level: $1. Field: $50. Length: best12. Variable: $24. var_idx: best12.;
+run;
+*** assign macro variables for looping in macro function ***;
+data _NULL_;
+set f.dict(where=(level^=''));
+call symputx("maxvar", _N_);
+if level='H' then do; call symputx("maxh", var_idx); end;
+if level='R' then do; call symputx("maxr", var_idx); end;
+if level='I' then do; call symputx("maxi", var_idx); end;
+if level='M' then do; call symputx("maxm", var_idx); end;
+if level='P' then do; call symputx("maxp", var_idx); end;
+if level='A' then do; call symputx("maxa", var_idx); end;
+if level='L' then do; call symputx("maxl", var_idx); end;
+if level='N' then do; call symputx("maxn", var_idx); end;
+if level='T' then do; call symputx("maxt", var_idx); end;
+call symput(cats("var",_N_), compress(Variable));
+call symput(cats("tmpvar",_N_), cats(lowcase(level),"var",var_idx));
+call symput(cats("fmt",_N_), cats("$",Length,"."));
+run;
+
+%put ~~~ maxvar: &maxvar. ~~~;
+%put ~~~ maxh: &maxh. ~~~;
+%put ~~~ maxr: &maxr. ~~~;
+%put ~~~ maxi: &maxi. ~~~;
+%put ~~~ maxm: &maxm. ~~~;
+%put ~~~ maxp: &maxp. ~~~;
+%put ~~~ maxa: &maxa. ~~~;
+%put ~~~ maxl: &maxl. ~~~;
+%put ~~~ maxn: &maxn. ~~~;
+%put ~~~ maxt: &maxt. ~~~;
+
 %macro import_single(filein, fileout=, default_over=truncover, default_dlm='7C'x, default_maxlen=6000);
 *** set default output dataset name ***;
 %if &fileout= %then %do;
 	%let fileout = %sysfunc(cats(sasds., %scan(%scan(&filein.,-1,/),1,.)));
 %end;
-
 
 *** read nobs from Batch Head ***;
 data ds_0;
@@ -44,7 +77,6 @@ call symputx('max_flag',max);
 run;
 %put ~~~ max_flag = &max_flag ~~~;
 
-*** 如果有脏数据存在;
 %if &max_flag. >= 1 %then %do;
 	%do i = 0 %to &max_flag.;
 		data ds_tmp&i.;
@@ -53,8 +85,6 @@ run;
 		keep raw_all id_tmp;
 		rename raw_all = raw_&i.;
 		run;
-
-		data f.ds_tmp&i.; set ds_tmp&i.; run;
 	%end;
 	
 	data ds_2;
@@ -70,6 +100,7 @@ run;
 	data ds_2; set ds_1; keep raw_all; run;
 %end;
 
+%put ~~~ maxh: &maxh. ~~~;
 
 *** read data with cleaned string format from dictionary ***;
 data ds_3;
@@ -79,7 +110,8 @@ set ds_2;
 %end;
 format level $1.;
 level = scan(raw_all,1,&default_dlm.,'m');
-if level='H' then do; %do i = 1 %to &maxh.; hvar&i. = scan(raw_all,1+&i.,&default_dlm.,'m'); %end; end;
+if level='H' then do; 
+%do i = 1 %to &maxh.; hvar&i. = scan(raw_all,1+&i.,&default_dlm.,'m'); %end; end;
 else if level='R' then do; %do i = 1 %to &maxr.; rvar&i. = scan(raw_all,1+&i.,&default_dlm.,'m'); %end; end;
 else if level='I' then do; %do i = 1 %to &maxi.; ivar&i. = scan(raw_all,1+&i.,&default_dlm.,'m'); %end; end;
 else if level='M' then do; %do i = 1 %to &maxm.; mvar&i. = scan(raw_all,1+&i.,&default_dlm.,'m'); %end; end;
@@ -98,6 +130,7 @@ else indi_idx++0;
 call symputx("maxobs", _N_);
 drop raw_all;
 run;
+data f.ds_3; set ds_3; run;
 %put ~~~ Max Obs Read from File: &maxobs ~~~;
 
 *** compare nobs with Batch Head ***;
