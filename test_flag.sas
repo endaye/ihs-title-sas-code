@@ -64,7 +64,6 @@ run;
 	raw_all = cats(OF raw_0 - raw_&max_flag.);
 	keep raw_all;
 	run;
-	data f.ds_2; set ds_2; run;
 %end;
 %else %do;
 	data ds_2; set ds_1; keep raw_all; run;
