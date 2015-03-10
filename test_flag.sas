@@ -57,7 +57,7 @@ data _NULL_; set tmpds_0; call symputx('tmpnobs',_N_); run;
 	new_id = catx('|', OF &var_id.);
 	if new_id ^= lag(new_id) then tmp_idx=1;
 	else tmp_idx ++ 1;
-	*drop new_id;
+	drop new_id;
 	run;
 	data f.&data_in._tmpds_1; set tmpds_1; run;
 %end;
@@ -298,8 +298,6 @@ data _NULL_; set tmpds_ctnt; call symputx('tmpmaxv', _N_); call symput(cats('tmp
 	proc sort data=ds_n_1 nodupkey; by N_Doc_Identifier; run;
 	proc sort data=ds_t_1 nodupkey; by T_Doc_Identifier; run;
 	
-	
-	data f.ds_h_1; set ds_h_1; run;
 	data f.ds_r_1; set ds_r_1; run;
 	data f.ds_im_1; set ds_im_1; run;
 	data f.ds_p_1; set ds_p_1; run;
