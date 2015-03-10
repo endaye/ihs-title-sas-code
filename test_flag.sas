@@ -36,24 +36,30 @@ run;
 %put ~~~ maxn: &maxn. ~~~;
 %put ~~~ maxt: &maxt. ~~~;
 
+
+
+
 %macro data_transpose(data_in, data_out, var_id, var_keep=_ALL_, var_idx=);
 *** input dataset data_in, output dataset data_out, var_id as unique ID for transposed data ***;
 *** default var_keep keeps all the variables, default blank var_idx does not specify variable of sort order ***;
 * sort data_in by specific order if no var_idx;
 
 proc sort data=&data_in(keep = &var_id. &var_keep. ) out=tmpds_0; by &var_id.; run;
-
+*** 初始化数值;
 %let tmpnobs = %eval(0);
 data _NULL_; set tmpds_0; call symputx('tmpnobs',_N_); run;
-%put tmpnobs = &tmpnobs;
+*** tmpnobs = data_in总行数;
+%put tmpnobs = &tmpnobs; 
 
+*** var_id = Doc_Identifier;
 %if &var_idx= %then %do;
 	data tmpds_1; set tmpds_0;
 	new_id = catx('|', OF &var_id.);
 	if new_id ^= lag(new_id) then tmp_idx=1;
 	else tmp_idx ++ 1;
-	drop new_id;
+	*drop new_id;
 	run;
+	data f.&data_in._tmpds_1; set tmpds_1; run;
 %end;
 %else %do;
 	proc sort data=tmpds_0 nodupkey; by &var_id. &var_idx.; run;
@@ -161,7 +167,7 @@ data _NULL_; set tmpds_ctnt; call symputx('tmpmaxv', _N_); call symput(cats('tmp
 			rename raw_all = raw_&i.;
 			run;
 		%end;
-		/*
+		
 		data ds_2;
 		merge ds_tmp0 - ds_tmp&max_flag.;
 		by id_tmp;
@@ -170,7 +176,7 @@ data _NULL_; set tmpds_ctnt; call symputx('tmpmaxv', _N_); call symput(cats('tmp
 		keep raw_all;
 		run;
 		data f.ds_2; set ds_2; run;
-		*/
+		/*
 		data ds_2_dirty;
 		merge ds_tmp1 - ds_tmp&max_flag.;
 		by id_tmp;
@@ -182,13 +188,11 @@ data _NULL_; set tmpds_ctnt; call symputx('tmpmaxv', _N_); call symput(cats('tmp
 		set ds_2_dirty;
 		a = index(raw_all,'|');
 		run;
-
+		*/
 	%end;
 	%else %do;
 		data ds_2; set ds_1; keep raw_all; run;
 	%end;
-
-/*
 
 	*** read data with cleaned string format from dictionary ***;
 	data ds_3;
@@ -247,7 +251,7 @@ data _NULL_; set tmpds_ctnt; call symputx('tmpmaxv', _N_); call symput(cats('tmp
 		put 'ERROR: Unknown Level Type ' level 'in Obs: ' _N_; 
 	end;
 	run;
-	
+	/*
 	data f.ds_h; set ds_h; run;
 	data f.ds_r; set ds_r; run;
 	data f.ds_i; set ds_i; run;
@@ -258,7 +262,7 @@ data _NULL_; set tmpds_ctnt; call symputx('tmpmaxv', _N_); call symput(cats('tmp
 	data f.ds_n; set ds_n; run;
 	data f.ds_t; set ds_t; run;
 	*/
-/*
+
 	*** combine I & M level ***;
 	proc sort data=ds_i nodupkey; by I_Doc_Identifier indi_idx; run;
 	proc sort data=ds_m nodupkey; by M_Doc_Identifier indi_idx; run;
@@ -267,8 +271,17 @@ data _NULL_; set tmpds_ctnt; call symputx('tmpmaxv', _N_); call symput(cats('tmp
 	by Doc_Identifier indi_idx;
 	run;
 
+
 	*** transpose IM, R, P, A, N, & T level ***;
 	
+	data f.ds_h; set ds_h; run;
+	data f.ds_r; set ds_r; run;
+	data f.ds_im; set ds_im; run;
+	data f.ds_p; set ds_p; run;
+	data f.ds_a; set ds_a; run;
+	data f.ds_l; set ds_l; run;
+	data f.ds_n; set ds_n; run;
+	data f.ds_t; set ds_t; run;
 	%data_transpose(ds_im, ds_im_1, var_id=Doc_Identifier, var_idx=indi_idx);
 	%data_transpose(ds_r, ds_r_1, var_id=R_Doc_Identifier);
 	%data_transpose(ds_p, ds_p_1, var_id=P_Doc_Identifier);
@@ -284,7 +297,17 @@ data _NULL_; set tmpds_ctnt; call symputx('tmpmaxv', _N_); call symput(cats('tmp
 	proc sort data=ds_a_1 nodupkey; by A_Doc_Identifier; run;
 	proc sort data=ds_n_1 nodupkey; by N_Doc_Identifier; run;
 	proc sort data=ds_t_1 nodupkey; by T_Doc_Identifier; run;
-	*/
+	
+	
+	data f.ds_h_1; set ds_h_1; run;
+	data f.ds_r_1; set ds_r_1; run;
+	data f.ds_im_1; set ds_im_1; run;
+	data f.ds_p_1; set ds_p_1; run;
+	data f.ds_a_1; set ds_a_1; run;
+	data f.ds_l_1; set ds_l_1; run;
+	data f.ds_n_1; set ds_n_1; run;
+	data f.ds_t_1; set ds_t_1; run;
+
 
 %mend import_single;
 %import_single(&txtds.DPL_IL_Cook_20150302.txt);
