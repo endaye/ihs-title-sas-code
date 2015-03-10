@@ -298,6 +298,7 @@ data _NULL_; set tmpds_ctnt; call symputx('tmpmaxv', _N_); call symput(cats('tmp
 	proc sort data=ds_n_1 nodupkey; by N_Doc_Identifier; run;
 	proc sort data=ds_t_1 nodupkey; by T_Doc_Identifier; run;
 	
+	data f.ds_h_1; set ds_h; run;
 	data f.ds_r_1; set ds_r_1; run;
 	data f.ds_im_1; set ds_im_1; run;
 	data f.ds_p_1; set ds_p_1; run;
